@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mybatis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在mybatis-config.xml添加">
+<meta name="keywords" content="mybatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis分页插件">
+<meta property="og:url" content="http://webhugo.github.io/2016/12/19/mybatis/20161219/index.html">
+<meta property="og:site_name" content="webhugo@D博客">
+<meta property="og:description" content="在mybatis-config.xml添加">
+<meta property="og:updated_time" content="2017-05-02T10:54:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mybatis分页插件">
+<meta name="twitter:description" content="在mybatis-config.xml添加">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://webhugo.github.io/2016/12/19/mybatis/20161219/"/>
+
+
+
+
+
+  <title>mybatis分页插件 | webhugo@D博客</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">webhugo@D博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://webhugo.github.io/2016/12/19/mybatis/20161219/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="webhugo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webhugo@D博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mybatis分页插件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-19T04:53:36+08:00">
+                2016-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="在mybatis-config-xml添加"><a href="#在mybatis-config-xml添加" class="headerlink" title="在mybatis-config.xml添加"></a>在mybatis-config.xml添加</h3><a id="more"></a>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;plugins&gt;</div><div class="line">        &lt;plugin interceptor="com.Util.PagePlugin"&gt;</div><div class="line">            &lt;!--默认第1页--&gt;</div><div class="line">            &lt;property name="default.page" value="1" /&gt;</div><div class="line">            &lt;!--默认每页20条--&gt;</div><div class="line">            &lt;property name="default.pageSize" value="20" /&gt;</div><div class="line">            &lt;!--默认不启用分页插件--&gt;</div><div class="line">            &lt;property name="default.useFlag" value="false" /&gt;</div><div class="line">            &lt;!--默认不检查页码--&gt;</div><div class="line">            &lt;property name="default.checkFlag" value="false" /&gt;</div><div class="line">        &lt;/plugin&gt;</div><div class="line">&lt;/plugins&gt;</div></pre></td></tr></table></figure>
+<h3 id="添加PageParams类"><a href="#添加PageParams类" class="headerlink" title="添加PageParams类"></a>添加PageParams类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.Util;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by webhugo on 12/19/16.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PageParams</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer page;<span class="comment">//当前页码</span></div><div class="line">    <span class="keyword">private</span> Integer pageSize;<span class="comment">//每页条数</span></div><div class="line">    <span class="keyword">private</span> Boolean useFlag;<span class="comment">//是否使用插件</span></div><div class="line">    <span class="keyword">private</span> Boolean checkFlag;<span class="comment">//检查当前页码的有效性</span></div><div class="line">    <span class="keyword">private</span> Integer total;<span class="comment">//当前sql返回总条数</span></div><div class="line">    <span class="keyword">private</span> Integer totalPage;<span class="comment">//sql以当前分页的总页数，插件回填</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getPage</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> page;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPage</span><span class="params">(Integer page)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.page = page;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getPageSize</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> pageSize;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPageSize</span><span class="params">(Integer pageSize)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.pageSize = pageSize;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Boolean <span class="title">getUseFlag</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> useFlag;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUseFlag</span><span class="params">(Boolean useFlag)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.useFlag = useFlag;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Boolean <span class="title">getCheckFlag</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> checkFlag;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCheckFlag</span><span class="params">(Boolean checkFlag)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.checkFlag = checkFlag;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getTotal</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> total;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTotal</span><span class="params">(Integer total)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.total = total;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getTotalPage</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> totalPage;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTotalPage</span><span class="params">(Integer totalPage)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.totalPage = totalPage;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="添加PagePlugin类"><a href="#添加PagePlugin类" class="headerlink" title="添加PagePlugin类"></a>添加PagePlugin类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.Util;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</div><div class="line"><span class="keyword">import</span> java.sql.Connection;</div><div class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</div><div class="line"><span class="keyword">import</span> java.sql.ResultSet;</div><div class="line"><span class="keyword">import</span> java.sql.SQLException;</div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.executor.parameter.ParameterHandler;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.executor.statement.StatementHandler;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.mapping.BoundSql;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.mapping.MappedStatement;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.plugin.Interceptor;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.plugin.Intercepts;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.plugin.Invocation;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.plugin.Plugin;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.plugin.Signature;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.reflection.MetaObject;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.reflection.SystemMetaObject;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.scripting.defaults.DefaultParameterHandler;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.session.Configuration;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * 通过拦截&lt;code&gt;StatementHandler&lt;/code&gt;的&lt;code&gt;prepare&lt;/code&gt;方法，重写sql语句实现物理分页。</div><div class="line"> * 老规矩，签名里要拦截的类型只能是接口。</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="meta">@Intercepts</span>(&#123;<span class="meta">@Signature</span>(type = StatementHandler.class, method = <span class="string">"prepare"</span>, args = &#123;Connection.class,Integer.class&#125;)&#125;)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PagePlugin</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer defaultPage;<span class="comment">//默认页码</span></div><div class="line">    <span class="keyword">private</span> Integer defaultPageSize;<span class="comment">//默认每页条数</span></div><div class="line">    <span class="keyword">private</span> Boolean defaultUseFlag;<span class="comment">//默认是否启动插件</span></div><div class="line">    <span class="keyword">private</span> Boolean defaultCheckFlag;<span class="comment">//默认是否检测当前页码的正确性</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Invocation invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        StatementHandler stmtHandler = getUnProxyObject(invocation);</div><div class="line">        MetaObject metaStatementHandler = SystemMetaObject.forObject(stmtHandler);</div><div class="line">        String sql = (String) metaStatementHandler.getValue(<span class="string">"delegate.boundSql.sql"</span>);</div><div class="line">        <span class="comment">//不是select语句.</span></div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.checkSelect(sql)) &#123;</div><div class="line">            <span class="keyword">return</span> invocation.proceed();</div><div class="line">        &#125;</div><div class="line">        BoundSql boundSql = (BoundSql) metaStatementHandler.getValue(<span class="string">"delegate.boundSql"</span>);</div><div class="line">        Object parameterObject = boundSql.getParameterObject();</div><div class="line">        PageParams pageParams = getPageParams(parameterObject);</div><div class="line">        <span class="keyword">if</span> (pageParams == <span class="keyword">null</span>) &#123; <span class="comment">//无法获取分页参数，不进行分页。</span></div><div class="line">            <span class="keyword">return</span> invocation.proceed();</div><div class="line">        &#125;</div><div class="line"><span class="comment">//获取参数.</span></div><div class="line">        Integer pageNum = pageParams.getPage() == <span class="keyword">null</span>? <span class="keyword">this</span>.defaultPage : pageParams.getPage();</div><div class="line">        Integer pageSize = pageParams.getPageSize() == <span class="keyword">null</span>? <span class="keyword">this</span>.defaultPageSize : pageParams.getPageSize();</div><div class="line">        Boolean useFlag = pageParams.getUseFlag() == <span class="keyword">null</span>? <span class="keyword">this</span>.defaultUseFlag : pageParams.getUseFlag();</div><div class="line">        Boolean checkFlag = pageParams.getCheckFlag() == <span class="keyword">null</span>? <span class="keyword">this</span>.defaultCheckFlag : pageParams.getCheckFlag();</div><div class="line">        <span class="keyword">int</span> total = <span class="keyword">this</span>.getTotal(invocation, metaStatementHandler, boundSql);</div><div class="line">        setTotalToParams(pageParams,total,pageSize);</div><div class="line">        checkPage(checkFlag, pageNum, pageParams.getTotalPage());</div><div class="line">        changeSQL(metaStatementHandler, boundSql, pageNum, pageSize);</div><div class="line">        Object data = invocation.proceed();</div><div class="line">        <span class="keyword">return</span> data;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">plugin</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> Plugin.wrap(o,<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setProperties</span><span class="params">(Properties props)</span> </span>&#123;</div><div class="line">        String strDefaultPage = props.getProperty(<span class="string">"default.page"</span>,<span class="string">"1"</span>);</div><div class="line">        String strDefaultPageSize = props.getProperty(<span class="string">"default.pageSize"</span>,<span class="string">"50"</span>);</div><div class="line">        String strDefaultUseFlag = props.getProperty(<span class="string">"default.useFlag"</span>,<span class="string">"false"</span>);</div><div class="line">        String strDefaultCheckFlag = props.getProperty(<span class="string">"default.checkFlag"</span>,<span class="string">"false"</span>);</div><div class="line">        <span class="keyword">this</span>.defaultPage = Integer.parseInt(strDefaultPage);</div><div class="line">        <span class="keyword">this</span>.defaultPageSize = Integer.parseInt(strDefaultPageSize);</div><div class="line">        <span class="keyword">this</span>.defaultUseFlag = Boolean.parseBoolean(strDefaultUseFlag);</div><div class="line">        <span class="keyword">this</span>.defaultCheckFlag = Boolean.parseBoolean(strDefaultCheckFlag);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> StatementHandler <span class="title">getUnProxyObject</span><span class="params">(Invocation ivt)</span> </span>&#123;</div><div class="line">        StatementHandler statementHandler = (StatementHandler) ivt.getTarget();</div><div class="line">        MetaObject metaStatementHandler = SystemMetaObject.forObject(statementHandler);</div><div class="line">        <span class="comment">// 分离代理对象链(由于目标类可能被多个拦截器拦截，从而形成多次代理，通过循环可以分离出最原始的的目标类)</span></div><div class="line">        Object object = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">while</span> (metaStatementHandler.hasGetter(<span class="string">"h"</span>)) &#123;</div><div class="line">            object = metaStatementHandler.getValue(<span class="string">"h"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (object == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> statementHandler;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (StatementHandler) object;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">checkSelect</span><span class="params">(String sql)</span> </span>&#123;</div><div class="line">        String trimSql = sql.trim();</div><div class="line">        <span class="keyword">int</span> idx = trimSql.toLowerCase().indexOf(<span class="string">"select"</span>);</div><div class="line">        <span class="keyword">return</span> idx == <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkPage</span><span class="params">(Boolean checkFlag, Integer pageNum, Integer pageTotal)</span> <span class="keyword">throws</span> Throwable  </span>&#123;</div><div class="line">        <span class="keyword">if</span> (checkFlag) &#123;</div><div class="line">            <span class="comment">//检查页码page是否合法.</span></div><div class="line">            <span class="keyword">if</span> (pageNum &gt; pageTotal) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"查询失败，查询页码【"</span> + pageNum + <span class="string">"】大于总页数【"</span> + pageTotal + <span class="string">"】！！"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">changeSQL</span><span class="params">( MetaObject metaStatementHandler, BoundSql boundSql, <span class="keyword">int</span> page, <span class="keyword">int</span> pageSize)</span> <span class="keyword">throws</span> SQLException, InvocationTargetException, IllegalAccessException, SQLException, InvocationTargetException </span>&#123;</div><div class="line">        <span class="comment">//获取当前需要执行的SQL</span></div><div class="line">        String sql = (String) metaStatementHandler.getValue(<span class="string">"delegate.boundSql.sql"</span>);</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * TODO 这里使用的是MySQL其他数据库需要修改.</div><div class="line">         * 根据你的数据库，修改分页的SQL</div><div class="line">         */</div><div class="line">        String newSql = <span class="string">"select * from ("</span> + sql + <span class="string">") $_paging_table limit "</span> + (page - <span class="number">1</span>) * pageSize + <span class="string">", "</span> + pageSize;</div><div class="line">        <span class="comment">//修改当前需要执行的SQL</span></div><div class="line">        metaStatementHandler.setValue(<span class="string">"delegate.boundSql.sql"</span>, newSql);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> PageParams <span class="title">getPageParams</span><span class="params">(Object parameterObject)</span></span>&#123;</div><div class="line">        PageParams pageParams = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (parameterObject == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//处理map参数和@Param注解参数，都是MAP</span></div><div class="line">        <span class="keyword">if</span> (parameterObject <span class="keyword">instanceof</span> Map) &#123;</div><div class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">            Map&lt;String, Object&gt; paramMap = (Map&lt;String, Object&gt;) parameterObject;</div><div class="line">            Set&lt;String&gt; keySet = paramMap.keySet();</div><div class="line">            Iterator&lt;String&gt; iterator = keySet.iterator();</div><div class="line">            <span class="keyword">while</span>(iterator.hasNext()) &#123;</div><div class="line">                String key = iterator.next();</div><div class="line">                Object value = paramMap.get(key);</div><div class="line">                <span class="keyword">if</span> (value <span class="keyword">instanceof</span> PageParams) &#123;</div><div class="line">                    <span class="keyword">return</span> (PageParams)value;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (parameterObject <span class="keyword">instanceof</span> PageParams) &#123; <span class="comment">//参数POJO继承了PageParams</span></div><div class="line">            <span class="keyword">return</span> (PageParams) parameterObject;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> pageParams;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getTotal</span><span class="params">(Invocation ivt, MetaObject metaStatementHandler, BoundSql boundSql)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        <span class="comment">//获取当前的mappedStatement</span></div><div class="line">        MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue(<span class="string">"delegate.mappedStatement"</span>);</div><div class="line">        <span class="comment">//配置对象</span></div><div class="line">        Configuration cfg = mappedStatement.getConfiguration();</div><div class="line">        <span class="comment">//当前需要执行的SQL</span></div><div class="line">        String sql = (String) metaStatementHandler.getValue(<span class="string">"delegate.boundSql.sql"</span>);</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * TODO 如果是其他的数据库需要按你数据库的SQL规范改写.</div><div class="line">         * 改写为统计总数的SQL</div><div class="line">         */</div><div class="line">        String countSql = <span class="string">"select count(*) as total from ("</span> + sql + <span class="string">") $_paging"</span>;</div><div class="line">        <span class="comment">//获取拦截方法参数，我们知道是Connection对象.</span></div><div class="line">        Connection connection = (Connection) ivt.getArgs()[<span class="number">0</span>];</div><div class="line">        PreparedStatement ps = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">int</span> total = <span class="number">0</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//预编译统计总数SQL</span></div><div class="line">            ps = connection.prepareStatement(countSql);</div><div class="line">            <span class="comment">//构建统计总数SQL</span></div><div class="line">            BoundSql countBoundSql = <span class="keyword">new</span> BoundSql(cfg, countSql, boundSql.getParameterMappings(), boundSql.getParameterObject());</div><div class="line">            <span class="comment">//构建MyBatis的ParameterHandler用来设置总数Sql的参数。</span></div><div class="line">            ParameterHandler handler = <span class="keyword">new</span> DefaultParameterHandler(mappedStatement, boundSql.getParameterObject(), countBoundSql);</div><div class="line">            <span class="comment">//设置总数SQL参数</span></div><div class="line">            handler.setParameters(ps);</div><div class="line">            <span class="comment">//执行查询.</span></div><div class="line">            ResultSet rs = ps.executeQuery();</div><div class="line">            <span class="keyword">while</span> (rs.next()) &#123;</div><div class="line">                total = rs.getInt(<span class="string">"total"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            <span class="comment">//这里不能关闭Connection否则后续的SQL就没法继续了。</span></div><div class="line">            <span class="keyword">if</span> (ps != <span class="keyword">null</span> &amp;&amp; ps.isClosed()) &#123;</div><div class="line">                ps.close();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.err.println(<span class="string">"总条数："</span> + total);</div><div class="line">        <span class="keyword">return</span> total;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setTotalToParams</span><span class="params">(PageParams pageParams,<span class="keyword">int</span> total,<span class="keyword">int</span> pageSize)</span></span>&#123;</div><div class="line">        pageParams.setTotal(total);</div><div class="line">        <span class="keyword">int</span> totalPage = total % pageSize == <span class="number">0</span>? total/pageSize:total/pageSize+<span class="number">1</span>;</div><div class="line">        pageParams.setTotalPage(totalPage);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mybatis/" rel="tag"># mybatis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/15/javaweb/20161215/" rel="next" title="关系映射级别的注解(续)">
+                <i class="fa fa-chevron-left"></i> 关系映射级别的注解(续)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/26/other/20161226/" rel="prev" title="pg">
+                pg <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="webhugo" />
+          <p class="site-author-name" itemprop="name">webhugo</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在mybatis-config-xml添加"><span class="nav-number">1.</span> <span class="nav-text">在mybatis-config.xml添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加PageParams类"><span class="nav-number">2.</span> <span class="nav-text">添加PageParams类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加PagePlugin类"><span class="nav-number">3.</span> <span class="nav-text">添加PagePlugin类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">webhugo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javaweb," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="关系映射级别的注解一对一单向外键关联 @OneToOne(cascade=) @JoinColumn(name=””,unique=),举例子用户和身份证是一对一关系 joinColumn是把被控方的键添加到主控方，@JoinColumn注解在主控方添加 在数据库添加时应先添加被控方，再添加主控方 学生是主控方，身份证是被控方，把被控方的主键作为主控方的外键">
+<meta name="keywords" content="javaweb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关系映射级别的注解(续)">
+<meta property="og:url" content="http://webhugo.github.io/2016/12/15/javaweb/20161215/index.html">
+<meta property="og:site_name" content="webhugo@D博客">
+<meta property="og:description" content="关系映射级别的注解一对一单向外键关联 @OneToOne(cascade=) @JoinColumn(name=””,unique=),举例子用户和身份证是一对一关系 joinColumn是把被控方的键添加到主控方，@JoinColumn注解在主控方添加 在数据库添加时应先添加被控方，再添加主控方 学生是主控方，身份证是被控方，把被控方的主键作为主控方的外键">
+<meta property="og:updated_time" content="2017-05-02T10:54:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关系映射级别的注解(续)">
+<meta name="twitter:description" content="关系映射级别的注解一对一单向外键关联 @OneToOne(cascade=) @JoinColumn(name=””,unique=),举例子用户和身份证是一对一关系 joinColumn是把被控方的键添加到主控方，@JoinColumn注解在主控方添加 在数据库添加时应先添加被控方，再添加主控方 学生是主控方，身份证是被控方，把被控方的主键作为主控方的外键">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://webhugo.github.io/2016/12/15/javaweb/20161215/"/>
+
+
+
+
+
+  <title>关系映射级别的注解(续) | webhugo@D博客</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">webhugo@D博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://webhugo.github.io/2016/12/15/javaweb/20161215/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="webhugo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webhugo@D博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关系映射级别的注解(续)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-15T08:41:08+08:00">
+                2016-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关系映射级别的注解"><a href="#关系映射级别的注解" class="headerlink" title="关系映射级别的注解"></a>关系映射级别的注解</h1><h3 id="一对一单向外键关联"><a href="#一对一单向外键关联" class="headerlink" title="一对一单向外键关联"></a>一对一单向外键关联</h3><ol>
+<li>@OneToOne(cascade=) @JoinColumn(name=””,unique=),举例子用户和身份证是一对一关系</li>
+<li>joinColumn是把被控方的键添加到主控方，@JoinColumn注解在主控方添加</li>
+<li>在数据库添加时应先添加被控方，再添加主控方</li>
+<li>学生是主控方，身份证是被控方，把被控方的主键作为主控方的外键<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IdCard</span> </span>&#123;</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span>(generator = <span class="string">"pid"</span>)<span class="comment">//pid是string类型，不能自动增长</span></div><div class="line">    <span class="meta">@GenericGenerator</span>(name = <span class="string">"pid"</span>,strategy = <span class="string">"assigned"</span>)<span class="comment">//所以自定义生成器，生成策略是手动赋值</span></div><div class="line">    <span class="meta">@Column</span>(length = <span class="number">18</span> )</div><div class="line">    <span class="keyword">private</span> String pid; <span class="comment">//身份证号码</span></div><div class="line">    <span class="keyword">private</span> String sname; <span class="comment">//姓名</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> pid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPid</span><span class="params">(String pid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.pid = pid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSname</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sname;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSname</span><span class="params">(String sname)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sname = sname;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Cache</span>(usage = CacheConcurrencyStrategy.READ_WRITE)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Students</span> </span>&#123;</div><div class="line">    <span class="meta">@OneToOne</span>(cascade = CascadeType.ALL)<span class="comment">//全级联</span></div><div class="line">    <span class="meta">@JoinColumn</span>(name = <span class="string">"pid"</span>,unique = <span class="keyword">true</span>)<span class="comment">//把身份证的id添加带student</span></div><div class="line">    <span class="keyword">private</span> IdCard card;</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sid;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">private</span> String gender;<span class="comment">//性别</span></div><div class="line">    <span class="keyword">private</span> Date birthday;</div><div class="line">    <span class="keyword">private</span> String major;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> IdCard <span class="title">getCard</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> card;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCard</span><span class="params">(IdCard card)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.card = card;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSid</span><span class="params">(<span class="keyword">int</span> sid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sid = sid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getGender</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> gender;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setGender</span><span class="params">(String gender)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gender = gender;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getBirthday</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> birthday;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBirthday</span><span class="params">(Date birthday)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.birthday = birthday;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMajor</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> major;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMajor</span><span class="params">(String major)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.major = major;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="一对一双向外键关联"><a href="#一对一双向外键关联" class="headerlink" title="一对一双向外键关联"></a>一对一双向外键关联</h3><ol>
+<li>主控方和一对一单向外键一样，主要不同是被控方@</li>
+<li>不可能在双方都设置外键保存关系，否则两者都没法保存，设想一下学生和身份证，加入双方设置外键保存关系，在保存学生时会要求先保存身份证，保存身份证的时候会要求先保存学生，导致都没法保存<br>主控方和上面一样，就不写了</li>
+</ol>
+<p>被控方</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 被控类</div><div class="line"> */</div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IdCard</span> </span>&#123;</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span>(generator = <span class="string">"pid"</span>)<span class="comment">//pid是string类型，不能自动增长</span></div><div class="line">    <span class="meta">@GenericGenerator</span>(name = <span class="string">"pid"</span>,strategy = <span class="string">"assigned"</span>)<span class="comment">//所以自定义生成器，生成策略是手动赋值</span></div><div class="line">    <span class="meta">@Column</span>(length = <span class="number">18</span> )</div><div class="line">    <span class="keyword">private</span> String pid; <span class="comment">//身份证号码</span></div><div class="line">    <span class="keyword">private</span> String sname; <span class="comment">//姓名</span></div><div class="line">    <span class="meta">@OneToOne</span>(mappedBy = <span class="string">"card"</span>)<span class="comment">//把控制权交给student,命名为card和students中的一致，否则不能生成</span></div><div class="line">    <span class="keyword">private</span> Students students;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Students <span class="title">getStudents</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> students;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStudents</span><span class="params">(Students students)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.students = students;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> pid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPid</span><span class="params">(String pid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.pid = pid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSname</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sname;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSname</span><span class="params">(String sname)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sname = sname;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>这个和单向一对一生成的表是一样的<br><strong>区别:<br>单向：一端只能加载另一端，不能反过来。<br>双向：两端都可以加载另一端</strong></li>
+</ol>
+<h3 id="一对一双向外键联合主键"><a href="#一对一双向外键联合主键" class="headerlink" title="一对一双向外键联合主键"></a>一对一双向外键联合主键</h3><ol>
+<li>创建主键类,主键类必须实现Serializable接口和重写hasCode和equals方法</li>
+<li>主键类添加@Embeddable注解，再创建实体类，添加@EmbeddedId注解</li>
+</ol>
+<h3 id="多对一单向外键关联"><a href="#多对一单向外键关联" class="headerlink" title="多对一单向外键关联"></a>多对一单向外键关联</h3><ol>
+<li>多方拥有一方的引用，例如一个班级多个学生</li>
+<li>@ManyToOne(cascade = {},fetch = ) @JoinColumn(name=””,referencedColumnName = “”)<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Students</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sid;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">private</span> String gender;<span class="comment">//性别</span></div><div class="line">    <span class="keyword">private</span> Date birthday;</div><div class="line">    <span class="keyword">private</span> String major;</div><div class="line"></div><div class="line">    <span class="meta">@ManyToOne</span>(cascade = CascadeType.ALL,fetch = FetchType.EAGER)<span class="comment">//全级联，抓取策略是EAGER</span></div><div class="line">    <span class="meta">@JoinColumn</span>(name = <span class="string">"cid"</span>,referencedColumnName = <span class="string">"CID"</span>)<span class="comment">//把classroom的主键cid添加到students表中，变为大写的CID</span></div><div class="line">    <span class="keyword">private</span> ClassRoom classRoom;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> ClassRoom <span class="title">getClassRoom</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> classRoom;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setClassRoom</span><span class="params">(ClassRoom classRoom)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.classRoom = classRoom;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSid</span><span class="params">(<span class="keyword">int</span> sid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sid = sid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getGender</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> gender;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setGender</span><span class="params">(String gender)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gender = gender;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getBirthday</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> birthday;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBirthday</span><span class="params">(Date birthday)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.birthday = birthday;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMajor</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> major;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMajor</span><span class="params">(String major)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.major = major;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassRoom</span> </span>&#123;</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span>(generator = <span class="string">"cid"</span>)<span class="comment">//cid是string类型，不能自动增长</span></div><div class="line">    <span class="meta">@GenericGenerator</span>(name = <span class="string">"cid"</span>,strategy = <span class="string">"assigned"</span>)<span class="comment">//所以自定义生成器，生成策略是手动赋值</span></div><div class="line">    <span class="meta">@Column</span>(length = <span class="number">4</span> )</div><div class="line">    <span class="keyword">private</span> String cid;<span class="comment">//班级编号</span></div><div class="line">    <span class="keyword">private</span> String cname;<span class="comment">//班级名称</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> cid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCid</span><span class="params">(String cid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.cid = cid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCname</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> cname;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCname</span><span class="params">(String cname)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.cname = cname;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>总结</strong><br>一对多，一方是LAZY,多方设置为EAGER</p>
+<h3 id="一对多单向外键"><a href="#一对多单向外键" class="headerlink" title="一对多单向外键"></a>一对多单向外键</h3><ol>
+<li>一方拥有多方的集合，例如一个班级有多个学生（一对多）<br>生成的表和上面没有什么区别</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Students</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> sid;<span class="comment">//学号</span></div><div class="line">    <span class="keyword">private</span> String gender;<span class="comment">//性别</span></div><div class="line">    <span class="keyword">private</span> Date birthday;</div><div class="line">    <span class="keyword">private</span> String major;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSid</span><span class="params">(<span class="keyword">int</span> sid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.sid = sid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getGender</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> gender;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setGender</span><span class="params">(String gender)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gender = gender;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getBirthday</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> birthday;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBirthday</span><span class="params">(Date birthday)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.birthday = birthday;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMajor</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> major;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMajor</span><span class="params">(String major)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.major = major;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassRoom</span> </span>&#123;</div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span>(generator = <span class="string">"cid"</span>)<span class="comment">//cid是string类型，不能自动增长</span></div><div class="line">    <span class="meta">@GenericGenerator</span>(name = <span class="string">"cid"</span>,strategy = <span class="string">"assigned"</span>)<span class="comment">//所以自定义生成器，生成策略是手动赋值</span></div><div class="line">    <span class="meta">@Column</span>(length = <span class="number">4</span> )</div><div class="line">    <span class="keyword">private</span> String cid;<span class="comment">//班级编号</span></div><div class="line">    <span class="keyword">private</span> String cname;<span class="comment">//班级名称</span></div><div class="line"></div><div class="line">    <span class="meta">@OneToMany</span>(cascade = CascadeType.ALL,fetch = FetchType.LAZY)</div><div class="line">    <span class="meta">@JoinColumn</span>(name = <span class="string">"cid"</span>)<span class="comment">//是在学生表中添加外键，和多对一的表结构没区别</span></div><div class="line">    <span class="keyword">private</span> Set&lt;Students&gt; stud;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Set&lt;Students&gt; <span class="title">getStud</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> stud;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStud</span><span class="params">(Set&lt;Students&gt; stud)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.stud = stud;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> cid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCid</span><span class="params">(String cid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.cid = cid;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCname</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> cname;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCname</span><span class="params">(String cname)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.cname = cname;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>fetch的设置，多对一时多方设置FetchType.EAGER，一对多时一方设置FetchType.LAZY</strong></p>
+<h3 id="一对多（多对一）双向外键"><a href="#一对多（多对一）双向外键" class="headerlink" title="一对多（多对一）双向外键"></a>一对多（多对一）双向外键</h3><ol>
+<li>把一对多单向外键和多对一单向外键关联 结合起来就可以了，可以实现任意一方加载另外一方</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaweb/" rel="tag"># javaweb</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/14/javaweb/20161214/" rel="next" title="hibernate注解">
+                <i class="fa fa-chevron-left"></i> hibernate注解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/19/mybatis/20161219/" rel="prev" title="mybatis分页插件">
+                mybatis分页插件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="webhugo" />
+          <p class="site-author-name" itemprop="name">webhugo</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系映射级别的注解"><span class="nav-number">1.</span> <span class="nav-text">关系映射级别的注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一对一单向外键关联"><span class="nav-number">1.0.1.</span> <span class="nav-text">一对一单向外键关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对一双向外键关联"><span class="nav-number">1.0.2.</span> <span class="nav-text">一对一双向外键关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对一双向外键联合主键"><span class="nav-number">1.0.3.</span> <span class="nav-text">一对一双向外键联合主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多对一单向外键关联"><span class="nav-number">1.0.4.</span> <span class="nav-text">多对一单向外键关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多单向外键"><span class="nav-number">1.0.5.</span> <span class="nav-text">一对多单向外键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多（多对一）双向外键"><span class="nav-number">1.0.6.</span> <span class="nav-text">一对多（多对一）双向外键</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">webhugo</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
